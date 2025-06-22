@@ -1,5 +1,5 @@
-const { urlencoded } = require("body-parser");
 const express = require("express");
+const userRouter = require("./routes/userRouter");
 
 const app = express();
 
@@ -8,24 +8,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(urlencoded());
+app.use(express.urlencoded());
 
-app.get("/", (req, res, next) => {
-  console.log("Second Middleware", req.url, req.method);
-  res.status(201).send(`
-  <h1>Welcome to airbnb</h1>
-  <a href="/add-home">Add Home</a>
-`);
-});
+app.use(userRouter);
+
 app.get("/add-home", (req, res, next) => {
   console.log("Third Middleware", req.url, req.method);
   res.status(202).send(`
-  <h1>Registe your Home here..</h1>
-  <form action="/add-home" method="post">
-    <input type="text" name="home" id="home" placeholder="Home Name" />
-    <input type="submit">
-  </form>
-`);
+    <h1>Registe your Home here..</h1>
+    <form action="/add-home" method="post">
+      <input type="text" name="home" id="home" placeholder="Home Name" />
+      <input type="submit">
+    </form>
+  `);
 });
 app.post("/add-home", (req, res, next) => {
   console.log("Fourth Middleware", req.url, req.method, req.body);
