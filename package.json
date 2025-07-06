@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tailwind": "npx @tailwindcss/cli -i ./views/input.css -o ./public/output.css --watch",
+    "tailwind": "tailwindcss -i ./views/input.css -o ./public/output.css --watch",
     "start": "nodemon app.js & npm run tailwind"
   },
   "author": "",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "tailwindcss": "^4.1.11"
   }

@@ -1,11 +1,16 @@
-const express = require("express");
+// Core Modules
+const path = require('path');
+
+// External Module
+const express = require('express');
 const userRouter = express.Router();
-const path = require("path");
-const rootDir = require("../utils/pathUtil");
+
+// Local Module
+const { registeredHomes } = require('./hostRouter');
 
 userRouter.get("/", (req, res, next) => {
-  console.log("Second Middleware", req.url, req.method);
-  res.status(201).sendFile(path.join(rootDir,'views', 'home.html'));
+  console.log(registeredHomes);
+  res.render('home', {registeredHomes: registeredHomes, pageTitle: 'airbnb Home'});
 });
 
 module.exports = userRouter;
