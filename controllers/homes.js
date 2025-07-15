@@ -1,4 +1,4 @@
-const registeredHomes = [];
+const Home = require("../models/home");
 
 exports.getAddHome = (req, res, next) => {
   res.render("addHome", {
@@ -9,7 +9,12 @@ exports.getAddHome = (req, res, next) => {
 
 exports.postAddHome = (req, res, next) => {
   console.log("Home Registration successful for:", req.body);
-  registeredHomes.push(req.body);
+
+  const { houseName, price, location, rating, photoUrl } = req.body;
+
+  const home = new Home(houseName, price, location, rating, photoUrl);
+  home.save();
+
   res.render("homeAdded", {
     pageTitle: "Home Added Successfully",
     currentPage: "homeAdded",
@@ -17,6 +22,7 @@ exports.postAddHome = (req, res, next) => {
 };
 
 exports.getHomes = (req, res, next) => {
+  const registeredHomes = Home.fetchAll();
   console.log(registeredHomes);
   res.render("home", {
     registeredHomes: registeredHomes,
@@ -24,5 +30,3 @@ exports.getHomes = (req, res, next) => {
     currentPage: "Home",
   });
 };
-
-exports.registeredHomes = registeredHomes;
