@@ -1,1 +1,30 @@
-[{"houseName":"Vilas","price":"999","location":"vzg","rating":"5","photoUrl":"abc"},{"houseName":"Villa","price":"9999","location":"Gwk","rating":"5","photoUrl":"asdf"},{"houseName":"Utsav","price":"899","location":"Hyd","rating":"4","photoUrl":"tiof"}]
+[
+  {
+    "houseName": "Vilas",
+    "price": "999",
+    "location": "vzg",
+    "rating": "5",
+    "photoUrl": "abc"
+  },
+  {
+    "houseName": "Villa",
+    "price": "9999",
+    "location": "Gwk",
+    "rating": "5",
+    "photoUrl": "asdf"
+  },
+  {
+    "houseName": "Utsav",
+    "price": "899",
+    "location": "Hyd",
+    "rating": "4",
+    "photoUrl": "tiof"
+  },
+  {
+    "houseName": "techHub",
+    "price": "599",
+    "location": "vskp",
+    "rating": "5",
+    "photoUrl": "wwwe"
+  }
+]
