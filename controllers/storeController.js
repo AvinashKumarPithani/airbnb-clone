@@ -57,3 +57,26 @@ exports.getFavouriteList = (req, res, next) => {
     });
   });
 };
+
+exports.postFavouriteList = (req, res, next) => {
+  console.log("Came to add to Favourite", req.body);
+  res.redirect("/favourites");
+};
+
+exports.getHomeDetails = (req, res, next) => {
+  const homeId = req.params.homeId;
+  console.log("At home detail page", homeId);
+  Home.findById(homeId, home => {
+    if (!home) {
+      console.log("Home not found");
+      res.redirect("/homes");
+    } else {
+      console.log("Home details found", home);
+      res.render("store/home-detail", {
+        home: home,
+        pageTitle: "Home Detail",
+        currentPage: "Home",
+      });
+    }
+  });
+};
