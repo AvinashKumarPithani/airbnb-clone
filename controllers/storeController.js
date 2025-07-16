@@ -1,77 +1,74 @@
+const Favourite = require("../models/favourite");
 const Home = require("../models/home");
 
-exports.getAddHome = (req, res, next) => {
-  res.render("host/addHome", {
-    pageTitle: "Add Home to airbnb",
-    currentPage: "addHome",
-  });
-};
-
-exports.postAddHome = (req, res, next) => {
-  const { houseName, price, location, rating, photoUrl } = req.body;
-
-  const home = new Home(houseName, price, location, rating, photoUrl);
-  home.save();
-
-  res.render("host/home-added", {
-    pageTitle: "Home Added Successfully",
-    currentPage: "homeAdded",
-  });
-};
-
 exports.getIndex = (req, res, next) => {
-  Home.fetchAll((registeredHomes) => {
+  Home.fetchAll((registeredHomes) =>
     res.render("store/index", {
       registeredHomes: registeredHomes,
       pageTitle: "airbnb Home",
       currentPage: "index",
-    });
-  });
+    })
+  );
 };
 
 exports.getHomes = (req, res, next) => {
-  Home.fetchAll((registeredHomes) => {
+  Home.fetchAll((registeredHomes) =>
     res.render("store/home-list", {
       registeredHomes: registeredHomes,
       pageTitle: "Homes List",
       currentPage: "Home",
-    });
-  });
+    })
+  );
 };
 
 exports.getBookings = (req, res, next) => {
-  Home.fetchAll((registeredHomes) => {
-    res.render("store/bookings", {
-      pageTitle: "My Bookings",
-      currentPage: "bookings",
-    });
+  res.render("store/bookings", {
+    pageTitle: "My Bookings",
+    currentPage: "bookings",
   });
 };
 
 exports.getFavouriteList = (req, res, next) => {
-  Home.fetchAll((registeredHomes) => {
-    res.render("store/favourite-list", {
-      registeredHomes: registeredHomes,
-      pageTitle: "My Favourites",
-      currentPage: "favourites",
+  Favourite.getFavourites((favourites) => {
+    Home.fetchAll((registeredHomes) => {
+      const favouriteHomes = registeredHomes.filter((home) =>
+        favourites.includes(home.id)
+      );
+      res.render("store/favourite-list", {
+        favouriteHomes: favouriteHomes,
+        pageTitle: "My Favourites",
+        currentPage: "favourites",
+      });
     });
   });
 };
 
-exports.postFavouriteList = (req, res, next) => {
-  console.log("Came to add to Favourite", req.body);
-  res.redirect("/favourites");
+exports.postAddToFavourite = (req, res, next) => {
+  Favourite.addToFavourite(req.body.id, (error) => {
+    if (error) {
+      console.log("Error while marking favourite: ", error);
+    }
+    res.redirect("/favourites");
+  });
+};
+
+exports.postRemoveFromFavourite = (req, res, next) => {
+  const homeId = req.params.homeId;
+  Favourite.deleteById(homeId, (error) => {
+    if (error) {
+      console.log("Error while removing from Favourite", error);
+    }
+    res.redirect("/favourites");
+  });
 };
 
 exports.getHomeDetails = (req, res, next) => {
   const homeId = req.params.homeId;
-  console.log("At home detail page", homeId);
-  Home.findById(homeId, home => {
+  Home.findById(homeId, (home) => {
     if (!home) {
       console.log("Home not found");
       res.redirect("/homes");
     } else {
-      console.log("Home details found", home);
       res.render("store/home-detail", {
         home: home,
         pageTitle: "Home Detail",
