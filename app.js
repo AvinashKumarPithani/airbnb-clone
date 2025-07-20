@@ -12,6 +12,8 @@ const errorsController = require("./controllers/errors");
 
 const { default: mongoose } = require("mongoose");
 
+require('dotenv').config();
+
 const app = express();
 
 app.set("view engine", "ejs");
