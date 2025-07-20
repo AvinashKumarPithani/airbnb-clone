@@ -41,14 +41,14 @@ exports.getHostHomes = (req, res, next) => {
 exports.postAddHome = (req, res, next) => {
   const { houseName, price, location, rating, photoUrl, description } =
     req.body;
-  const home = new Home(
+  const home = new Home({
     houseName,
     price,
     location,
     rating,
     photoUrl,
-    description
-  );
+    description,
+  });
   home.save().then(() => {
     console.log("Home saved successfully");
   });
@@ -68,7 +68,7 @@ exports.postEditHome = (req, res, next) => {
     description,
     id
   );
-  home.save().then(result => {
+  home.save().then((result) => {
     console.log("Home updated ", result);
   });
   res.redirect("/host/host-home-list");
