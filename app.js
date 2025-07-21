@@ -7,12 +7,13 @@ const express = require("express");
 //Local Module
 const storeRouter = require("./routes/storeRouter");
 const hostRouter = require("./routes/hostRouter");
+const authRouter = require("./routes/authRouter");
 const rootDir = require("./utils/pathUtil");
 const errorsController = require("./controllers/errors");
 
 const { default: mongoose } = require("mongoose");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
@@ -22,8 +23,15 @@ app.set("views", "views");
 app.use(express.urlencoded());
 
 app.use(express.static(path.join(rootDir, "public")));
-
+app.use(authRouter);
 app.use(storeRouter);
+app.use("/host", (req, res, next) => {
+  if (req.isLoggedIn) {
+    next();
+  } else {
+    res.redirect("/login");
+  } 
+});
 app.use("/host", hostRouter);
 
 app.use(errorsController.pageNotFound);
