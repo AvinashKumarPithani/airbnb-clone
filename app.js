@@ -23,6 +23,14 @@ app.set("views", "views");
 app.use(express.urlencoded());
 
 app.use(express.static(path.join(rootDir, "public")));
+app.use((req, res, next) => {
+  console.log("cookie check middleware", req.get("Cookie"));
+  req.isLoggedIn = req.get("Cookie")
+    ? req.get("Cookie").split("=")[1] === "true"
+    : false;
+  next();
+});
+
 app.use(authRouter);
 app.use(storeRouter);
 app.use("/host", (req, res, next) => {
@@ -30,7 +38,7 @@ app.use("/host", (req, res, next) => {
     next();
   } else {
     res.redirect("/login");
-  } 
+  }
 });
 app.use("/host", hostRouter);
 
