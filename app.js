@@ -3,6 +3,7 @@ const path = require("path");
 
 // External Module
 const express = require("express");
+const session = require("express-session");
 
 //Local Module
 const storeRouter = require("./routes/storeRouter");
@@ -21,13 +22,18 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 app.use(express.urlencoded());
+app.use(
+  session({
+    secret: "airbnb",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(express.static(path.join(rootDir, "public")));
+
 app.use((req, res, next) => {
-  console.log("cookie check middleware", req.get("Cookie"));
-  req.isLoggedIn = req.get("Cookie")
-    ? req.get("Cookie").split("=")[1] === "true"
-    : false;
+  req.isLoggedIn = req.session.isLoggedIn;
   next();
 });
 
