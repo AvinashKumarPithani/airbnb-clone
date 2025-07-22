@@ -4,6 +4,9 @@ const path = require("path");
 // External Module
 const express = require("express");
 const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+require("dotenv").config();
+const DB_PATH = process.env.MONGO_URL;
 
 //Local Module
 const storeRouter = require("./routes/storeRouter");
@@ -14,12 +17,15 @@ const errorsController = require("./controllers/errors");
 
 const { default: mongoose } = require("mongoose");
 
-require("dotenv").config();
-
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
+
+const store = new MongoDBStore({
+  uri: DB_PATH,
+  collection: "sessions",
+});
 
 app.use(express.urlencoded());
 app.use(
@@ -27,6 +33,7 @@ app.use(
     secret: "airbnb",
     resave: false,
     saveUninitialized: true,
+    store,
   })
 );
 
@@ -51,7 +58,6 @@ app.use("/host", hostRouter);
 app.use(errorsController.pageNotFound);
 
 const PORT = 3000;
-const DB_PATH = process.env.MONGO_URL;
 
 mongoose
   .connect(DB_PATH)
