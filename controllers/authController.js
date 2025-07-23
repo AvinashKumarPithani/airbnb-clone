@@ -2,7 +2,14 @@ exports.getLogin = (req, res, next) => {
   res.render("auth/login", {
     pageTitle: "Login",
     currentPage: "login",
-    editing: false,
+    isLoggedIn: false,
+  });
+};
+
+exports.getSignup = (req, res, next) => {
+  res.render("auth/signup", {
+    pageTitle: "Signup",
+    currentPage: "signup",
     isLoggedIn: false,
   });
 };
