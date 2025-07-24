@@ -28,8 +28,10 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
+const multerOptions = multer({ dest: "uploads/" });
+
 app.use(express.urlencoded());
-app.use(multer().single("photo"));
+app.use(multer(multerOptions).single("photo"));
 app.use(express.static(path.join(rootDir, "public")));
 
 app.use(
