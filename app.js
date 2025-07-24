@@ -5,7 +5,10 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const { default: mongoose } = require("mongoose");
+const multer = require("multer");
 require("dotenv").config();
+
 const DB_PATH = process.env.MONGO_URL;
 
 //Local Module
@@ -14,8 +17,6 @@ const hostRouter = require("./routes/hostRouter");
 const authRouter = require("./routes/authRouter");
 const rootDir = require("./utils/pathUtil");
 const errorsController = require("./controllers/errors");
-
-const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -28,6 +29,9 @@ const store = new MongoDBStore({
 });
 
 app.use(express.urlencoded());
+app.use(multer().single("photo"));
+app.use(express.static(path.join(rootDir, "public")));
+
 app.use(
   session({
     secret: "airbnb",
@@ -36,8 +40,6 @@ app.use(
     store,
   })
 );
-
-app.use(express.static(path.join(rootDir, "public")));
 
 app.use((req, res, next) => {
   req.isLoggedIn = req.session.isLoggedIn;
