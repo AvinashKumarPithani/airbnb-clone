@@ -116,6 +116,8 @@ exports.postSignup = [
 exports.postLogin = async (req, res, next) => {
   const {email, password} = req.body;
   const user = await User.findOne({email});
+  // console.log("Email submitted:", email);
+  // console.log("User found:", user);
   if (!user) {
     return res.status(422).render("auth/login", {
       pageTitle: "Login",
@@ -141,9 +143,19 @@ exports.postLogin = async (req, res, next) => {
 
   req.session.isLoggedIn = true;
   req.session.user = user;
-  await req.session.save();
 
-  res.redirect("/");
+  // console.log("Before save:", req.session);
+
+  await req.session.save((err) => {
+    if (err) {
+      console.log("Session save error:", err);
+    } else {
+      console.log("Session saved successfully");
+    }
+    // console.log("After save:", req.session);
+    res.redirect("/");
+  });
+
 }
 
 exports.postLogout = (req, res, next) => {

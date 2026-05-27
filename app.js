@@ -23,6 +23,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+// console.log(process.env.MONGO_URL);
+
 const store = new MongoDBStore({
   uri: DB_PATH,
   collection: "sessions",
@@ -71,7 +73,7 @@ app.use(
   session({
     secret: "airbnb",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store,
   })
 );

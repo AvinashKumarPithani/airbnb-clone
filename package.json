@@ -5,30 +5,31 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tailwind": "tailwindcss -i ./views/input.css -o ./public/output.css --watch",
-    "start": "concurrently \"nodemon app.js\" \"npm run tailwind\""
+    "start": "concurrently \"nodemon app.js\" \"npm run tailwind\"",
+    "update-deps": "npx npm-check-updates -u && npm install"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "concurrently": "^9.2.0",
-    "nodemon": "^3.1.10",
-    "postcss": "^8.5.6"
+    "autoprefixer": "^10.5.0",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.5.15"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.11",
-    "bcryptjs": "^3.0.2",
+    "@tailwindcss/cli": "^4.3.0",
+    "bcryptjs": "^3.0.3",
     "connect-mongodb-session": "^5.0.0",
-    "dotenv": "^17.2.0",
-    "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.2",
-    "express-validator": "^7.2.1",
-    "mongodb": "^6.17.0",
-    "mongoose": "^8.16.4",
-    "multer": "^2.0.2",
-    "mysql2": "^3.14.2",
-    "tailwindcss": "^4.1.11"
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.6.2",
+    "multer": "^2.1.1",
+    "mysql2": "^3.22.4",
+    "tailwindcss": "^4.3.0"
   }
 }
