@@ -83,6 +83,11 @@ exports.postEditHome = (req, res, next) => {
       home.description = description;
 
       if (req.file) {
+        fs.unlink(home.photo, (err) => {
+          if (err) {
+            console.log("Error while deleting old photo ", err);
+          }
+        });
         home.photo = req.file.path;
       }
       
